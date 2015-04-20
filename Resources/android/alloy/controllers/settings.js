@@ -18,6 +18,12 @@ function Controller() {
             e.source.activity.invalidateOptionsMenu();
         }
     }
+    function clickedLogin() {
+        Alloy.createController("user").getView();
+    }
+    function outputState() {
+        Ti.API.info("Switch value: " + $.pushSwitch.value);
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "settings";
     if (arguments[0]) {
@@ -42,17 +48,44 @@ function Controller() {
     });
     $.__views.settings && $.addTopLevelView($.__views.settings);
     doOpen ? $.__views.settings.addEventListener("open", doOpen) : __defers["$.__views.settings!open!doOpen"] = true;
-    $.__views.__alloyId7 = Ti.UI.createLabel({
+    $.__views.Push = Ti.UI.createLabel({
         color: "#fff",
-        text: "This is where my settings would go if I had any.",
-        top: "35",
-        id: "__alloyId7"
+        id: "Push",
+        text: "Push Notifications"
     });
-    $.__views.settings.add($.__views.__alloyId7);
+    $.__views.settings.add($.__views.Push);
+    $.__views.Login = Ti.UI.createLabel({
+        color: "#fff",
+        id: "Login",
+        text: "Log In To your Account"
+    });
+    $.__views.settings.add($.__views.Login);
+    $.__views.pushSwitch = Ti.UI.createSwitch({
+        value: true,
+        id: "pushSwitch"
+    });
+    $.__views.settings.add($.__views.pushSwitch);
+    outputState ? $.__views.pushSwitch.addEventListener("change", outputState) : __defers["$.__views.pushSwitch!change!outputState"] = true;
+    $.__views.loginButton = Ti.UI.createButton({
+        id: "loginButton",
+        color: "#fff",
+        title: "Login"
+    });
+    $.__views.settings.add($.__views.loginButton);
+    clickedLogin ? $.__views.loginButton.addEventListener("click", clickedLogin) : __defers["$.__views.loginButton!click!clickedLogin"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
+    var pushSwitch = Ti.UI.createSwitch({
+        value: true
+    });
+    pushSwitch.addEventListener("change", function() {
+        Ti.API.info("Switch value: " + pushSwitch.value);
+    });
+    $.settings.open();
     __defers["$.__views.settings!open!doOpen"] && $.__views.settings.addEventListener("open", doOpen);
+    __defers["$.__views.pushSwitch!change!outputState"] && $.__views.pushSwitch.addEventListener("change", outputState);
+    __defers["$.__views.loginButton!click!clickedLogin"] && $.__views.loginButton.addEventListener("click", clickedLogin);
     _.extend($, exports);
 }
 

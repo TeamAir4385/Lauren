@@ -2,7 +2,7 @@
 	<Window id="settings" title="Settings" onOpen="doOpen">	
 		
 		<Label id="Push" text="Push Notifications" />
-		<Label id="User" text="Log In To your Account"/>
+		<Label id="Login" text="Log In To your Account"/>
 		
 		<Switch id="pushSwitch" value="true" onChange="outputState"/>
 		<Button id="loginButton" onClick="clickedLogin" color="#fff" title="Login"/>
